@@ -162,7 +162,7 @@ class FastImage
   def fetch_using_http
     setup_http
     @http.request_get(@parsed_uri.request_uri) do |res|
-      if res.is_a?(Net::HTTPFound)
+      if res.is_a?(Net::HTTPFound) or res.is_a?(Net::HTTPMovedPermanently)
         raise ImageFetchFailure if @parsed_uri.request_uri == res.header["location"]
         @parsed_uri = URI.parse(res.header["location"])
         fetch_using_http
